@@ -157,43 +157,55 @@ namespace WpfApp
         {
             try
             {
-                ExcelPackage.LicenseContext = LicenseContext.NonCommercial;
-                var package = new ExcelPackage(new FileInfo(filePath));
-                var worksheet = package.Workbook.Worksheets[0];
+                var projects = new List<CapstoneProject>();
 
-                int rowCount = worksheet.Dimension.Rows;
-
-                for (int row = 3; row <= rowCount; row++)
+                using (var workbook = new XLWorkbook(filePath))
                 {
-                    var project = new CapstoneProject
-                    {
-                        ID = worksheet.Cells[row, 1].Text,
-                        Code = worksheet.Cells[row, 2].Text,
-                        ForgeinName = worksheet.Cells[row, 3].Text,
-                        VietName = worksheet.Cells[row, 4].Text,
-                        Department = worksheet.Cells[row, 5].Text,
-                        GVHD = worksheet.Cells[row, 6].Text,
-                        Email1 = worksheet.Cells[row, 7].Text,
-                        Email2 = worksheet.Cells[row, 8].Text,
-                        Result1 = worksheet.Cells[row, 9].Text,
-                        Result2 = worksheet.Cells[row, 10].Text,
-                        Cmt1 = worksheet.Cells[row, 11].Text,
-                        Cmt2 = worksheet.Cells[row, 12].Text,
-                        Final = worksheet.Cells[row, 13].Text
-                    };
+                    var worksheet = workbook.Worksheets.First();
+                    var rows = worksheet.RowsUsed().Skip(2);
 
-                    if (!string.IsNullOrEmpty(project.Email1))
+                    foreach (var row in rows)
                     {
-                        SendEmail(project.GVHD.Split('/')[0].Trim(), project.Email1, project);
+                        var result1 = row.Cell(9).GetString();
+                        var result2 = row.Cell(10).GetString();
+
+                        string finalResult = string.Empty;
+
+                        if (!string.IsNullOrWhiteSpace(result1) && !string.IsNullOrWhiteSpace(result2))
+                        {
+                            finalResult = CheckResult(result1, result2);
+                        }
+
+                        var project = new CapstoneProject
+                        {
+                            ID = row.Cell(1).GetString(),
+                            Code = row.Cell(2).GetString(),
+                            ForgeinName = row.Cell(3).GetString(),
+                            VietName = row.Cell(4).GetString(),
+                            Department = row.Cell(5).GetString(),
+                            GVHD = row.Cell(6).GetString(),
+                            Email1 = row.Cell(7).GetString(),
+                            Email2 = row.Cell(8).GetString(),
+                            Result1 = result1,
+                            Result2 = result2,
+                            Cmt1 = row.Cell(11).GetString(),
+                            Cmt2 = row.Cell(12).GetString(),
+                            Final = finalResult
+                        };
+
+                        if (!string.IsNullOrEmpty(project.Email1))
+                        {
+                            SendEmail(project.GVHD.Split('/')[0].Trim(), project.Email1, project);
+                        }
+
+                        if (!string.IsNullOrEmpty(project.Email2) && project.GVHD.Split('/').Length > 1)
+                        {
+                            SendEmail(project.GVHD.Split('/')[1].Trim(), project.Email2, project);
+                        }
                     }
 
-                    if (!string.IsNullOrEmpty(project.Email2) && project.GVHD.Split('/').Length > 1)
-                    {
-                        SendEmail(project.GVHD.Split('/')[1].Trim(), project.Email2, project);
-                    }
+                    MessageBox.Show("Emails sent successfully!");
                 }
-
-                MessageBox.Show("Emails sent successfully!");
             }
             catch (Exception ex)
             {
@@ -202,37 +214,70 @@ namespace WpfApp
         }
 
 
-        private void SendEmail(string name, string email, CapstoneProject project)
+        private async void SendEmail(string name, string email, CapstoneProject project)
         {
             try
             {
-                string subject = $"Thông báo kết quả dự án: {project.VietName}";
-                string body = $"Kính gửi {name},\n\n" +
-                              $"Dưới đây là kết quả của dự án {project.VietName}:\n\n" +
-                              $"Kết quả 1: {project.Result1}\n" +
-                              $"Kết quả 2: {project.Result2}\n" +
-                              $"Nhận xét 1: {project.Cmt1}\n" +
-                              $"Nhận xét 2: {project.Cmt2}\n" +
-                              $"Kết quả cuối cùng: {project.Final}\n\n" +
-                              $"Trân trọng,\n" +
-                              $"[Tên công ty hoặc trường đại học]";
+                string subject = $"Thông báo kết quả dự án: ";
+                string body = $@"
+            <p>Kính gửi {name},</p>
+            <p>Bộ phận Capstone Project gửi kết quả review các đề tài của thầy cô như sau:</p>
+            <p><strong>{project.VietName}</strong></p>
+            <table border='1' cellpadding='5' cellspacing='0' style='border-collapse: collapse; width: 100%;'>
+                <tr>
+                    <th>STT</th>
+                    <th>Mã Đề Tài</th>
+                    <th>Tên đề tài Tiếng Anh/ Tiếng Nhật</th>
+                    <th>Tên đề tài Tiếng Việt</th>
+                    <th>Department</th>
+                    <th>GVHD</th>
+                    <th>Email GVHD1</th>
+                    <th>Email GVHD2</th>
+                    <th>Result 1</th>
+                    <th>Result 2</th>
+                    <th>Comment 1</th>
+                    <th>Comment 2</th>
+                    <th>Final</th>
+                </tr>
+                <tr>
+                    <td>{project.ID}</td>
+                    <td>{project.Code}</td>
+                    <td>{project.ForgeinName}</td>
+                    <td>{project.VietName}</td>
+                    <td>{project.Department}</td>
+                    <td>{project.GVHD}</td>
+                    <td>{project.Email1}</td>
+                    <td>{project.Email2}</td>
+                    <td>{project.Result1}</td>
+                    <td>{project.Result2}</td>
+                    <td>{project.Cmt1}</td>
+                    <td>{project.Cmt2}</td>
+                    <td>{project.Final}</td>
+                </tr>
+            </table>
+            <p>Các đề tài Pass sẽ được công bố cho các nhóm SV chọn ở đầu Học kì.</p>
+            <p>Các đề tài Not Pass sẽ không được công bố và quí thầy cô vui lòng không gửi đăng ký lại cho đợt 2.</p>
+            <p>Các đề tài Consider, quí Thầy Cô sẽ cập nhật lại theo 10 tiêu chí đánh giá (trong file đính kèm) để hoàn thiện hơn và gửi lại ở đợt 2 nếu thấy phù hợp.</p>
+            <p>Trân trọng,</p>";
 
-                MailMessage mail = new MailMessage("nextintern.corp@gmail.com", email)
+                MailMessage mail = new MailMessage()
                 {
-                    From = new MailAddress("CapstoneProjectReview"),
+                    From = new MailAddress("nextintern.corp@gmail.com", "CapstoneProjectReview"),
                     Subject = subject,
-                    Body = body
+                    Body = body,
+                    IsBodyHtml = true
                 };
 
-                SmtpClient smtpClient = new SmtpClient("smtp.example.com")
+                mail.To.Add(email);
+
+                SmtpClient smtpClient = new SmtpClient("smtp.gmail.com")
                 {
                     Port = 587,
                     Credentials = new NetworkCredential("nextintern.corp@gmail.com", "wflm cyhu ifww lnbz"),
                     EnableSsl = true
                 };
 
-                mail.To.Add(email);
-                smtpClient.Send(mail);
+                await smtpClient.SendMailAsync(mail);
             }
             catch (Exception ex)
             {
