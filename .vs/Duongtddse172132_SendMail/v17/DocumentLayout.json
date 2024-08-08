@@ -1,0 +1,64 @@
+{
+  "Version": 1,
+  "WorkspaceRootPath": "D:\\Docm\\Dev\\.learning-process\\C#\\PRN221_B3W\\send-mail\\Duongtddse172132_SendMail\\",
+  "Documents": [
+    {
+      "AbsoluteMoniker": "D:0:0:{3E1D4ADE-2976-4C57-B0A7-25F22C10AE9F}|WpfApp\\WpfApp.csproj|d:\\docm\\dev\\.learning-process\\c#\\prn221_b3w\\send-mail\\duongtddse172132_sendmail\\wpfapp\\mainwindow.xaml.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{3E1D4ADE-2976-4C57-B0A7-25F22C10AE9F}|WpfApp\\WpfApp.csproj|solutionrelative:wpfapp\\mainwindow.xaml.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{3E1D4ADE-2976-4C57-B0A7-25F22C10AE9F}|WpfApp\\WpfApp.csproj|d:\\docm\\dev\\.learning-process\\c#\\prn221_b3w\\send-mail\\duongtddse172132_sendmail\\wpfapp\\mainwindow.xaml||{F11ACC28-31D1-4C80-A34B-F4E09D3D753C}",
+      "RelativeMoniker": "D:0:0:{3E1D4ADE-2976-4C57-B0A7-25F22C10AE9F}|WpfApp\\WpfApp.csproj|solutionrelative:wpfapp\\mainwindow.xaml||{F11ACC28-31D1-4C80-A34B-F4E09D3D753C}"
+    }
+  ],
+  "DocumentGroupContainers": [
+    {
+      "Orientation": 0,
+      "VerticalTabListWidth": 256,
+      "DocumentGroups": [
+        {
+          "DockedWidth": 200,
+          "SelectedChildIndex": 4,
+          "Children": [
+            {
+              "$type": "Bookmark",
+              "Name": "ST:0:0:{1c4feeaa-4718-4aa9-859d-94ce25d182ba}"
+            },
+            {
+              "$type": "Bookmark",
+              "Name": "ST:0:0:{eefa5220-e298-11d0-8f78-00a0c9110057}"
+            },
+            {
+              "$type": "Bookmark",
+              "Name": "ST:0:0:{3ae79031-e1bc-11d0-8f78-00a0c9110057}"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 1,
+              "Title": "MainWindow.xaml",
+              "DocumentMoniker": "D:\\Docm\\Dev\\.learning-process\\C#\\PRN221_B3W\\send-mail\\Duongtddse172132_SendMail\\WpfApp\\MainWindow.xaml",
+              "RelativeDocumentMoniker": "WpfApp\\MainWindow.xaml",
+              "ToolTip": "D:\\Docm\\Dev\\.learning-process\\C#\\PRN221_B3W\\send-mail\\Duongtddse172132_SendMail\\WpfApp\\MainWindow.xaml",
+              "RelativeToolTip": "WpfApp\\MainWindow.xaml",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.003549|",
+              "WhenOpened": "2024-08-08T09:52:23.116Z"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 0,
+              "Title": "MainWindow.xaml.cs",
+              "DocumentMoniker": "D:\\Docm\\Dev\\.learning-process\\C#\\PRN221_B3W\\send-mail\\Duongtddse172132_SendMail\\WpfApp\\MainWindow.xaml.cs",
+              "RelativeDocumentMoniker": "WpfApp\\MainWindow.xaml.cs",
+              "ToolTip": "D:\\Docm\\Dev\\.learning-process\\C#\\PRN221_B3W\\send-mail\\Duongtddse172132_SendMail\\WpfApp\\MainWindow.xaml.cs",
+              "RelativeToolTip": "WpfApp\\MainWindow.xaml.cs",
+              "ViewState": "AQIAAMUAAAAAAAAAAAAtwOcAAAASAAAA",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2024-08-08T08:17:57.695Z",
+              "EditorCaption": ""
+            }
+          ]
+        }
+      ]
+    }
+  ]
+}
